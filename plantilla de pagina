@@ -1,0 +1,1290 @@
+{{!< default}}
+{{!-- The tag above means - insert everything in this file into the {body} of the default.hbs template --}}
+
+{{#tag}}
+{{> "site-nav"}}
+
+{{> header background=feature_image}} {{!--Special header.hbs partial to generate the <header> tag--}}
+    <div class="inner">
+        <div class="site-header-content">
+            <h1 class="site-title">{{name}}</h1>
+            <h2 class="site-description">
+                {{#if description}}
+                    {{description}}
+                {{else}}
+                    A collection of {{plural ../pagination.total empty='posts' singular='% post' plural='% posts'}}
+                {{/if}}
+            </h2>
+        </div>
+    </div>
+</header>
+{{/tag}}
+
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+        <div class="post-feed">
+            {{#foreach posts}}
+                {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
+                {{> "post-card"}}
+            {{/foreach}}
+        </div>
+    </div>
+</main>
+
+b-cov
+*.seed
+*.log
+
+pids
+logs
+results
+
+npm-debug.log
+node_modules
+package-lock.json
+yarn.lock
+
+.DS_Store
+
+dist/
+
+config.json
+changelog.md
+changelog.md.bk
+{{!< default}}
+{{!-- The tag above means - insert everything in this file into the {body} of the default.hbs template --}}
+
+{{#author}}
+{{!-- Everything inside the #author tags pulls data from the author --}}
+
+{{!--Special header.hbs partial to generate the <header> tag--}}
+{{> "site-nav"}}
+
+<header class="site-header author-template outer {{#if cover_image}}" style="background-image: url({{cover_image}}){{else}}no-cover{{/if}}" data-parallax="true">
+</header>
+{{/author}}
+
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+      {{#author}}
+        <div class="site-header-content">
+            {{#if profile_image}}
+                <img class="author-profile-image img-raised rounded" src="{{profile_image}}" alt="{{name}}" />
+            {{/if}}
+            <h3 class="site-title">{{name}}</h3>
+            <div class="author-meta">
+                {{#if location}}
+                    <div class="author-location"><i class="fa fa-map-marker"></i>{{location}} <span class="bull">&bull;</span></div>
+                {{/if}}
+                <div class="author-stats">
+                    {{plural ../pagination.total empty='No posts' singular='% post' plural='% posts'}} <span class="bull">&bull;</span>
+                </div>
+                {{#if website}}
+                    <a class="social-link social-link-wb" href="{{website}}" target="_blank" rel="noopener">{{> "icons/website"}}</a>
+                {{/if}}
+                {{#if twitter}}
+                    <a class="social-link social-link-tw" href="{{twitter_url}}" target="_blank" rel="noopener">{{> "icons/twitter"}}</a>
+                {{/if}}
+                {{#if facebook}}
+                    <a class="social-link social-link-fb" href="{{facebook_url}}" target="_blank" rel="noopener">{{> "icons/facebook"}}</a>
+                {{/if}}
+                <a class="social-link social-link-rss" href="https://feedly.com/i/subscription/feed/{{url absolute="true"}}rss/" target="_blank" rel="noopener">{{> "icons/rss"}}</a>
+            </div>
+            {{#if bio}}
+                <h2 class="author-bio">{{bio}}</h2>
+            {{/if}}
+        </div>
+      {{/author}}
+
+      <div class="post-feed">
+          {{#foreach posts}}
+
+              {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
+              {{> "post-card"}}
+
+          {{/foreach}}
+      </div>
+    </div>
+</main>
+
+
+## [1.0.0] 2020-04-08
+### Initial Release
+
+<!DOCTYPE html>
+<html lang="{{@site.lang}}">
+<head>
+
+    {{!-- Document Settings --}}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    {{!-- Base Meta --}}
+    <title>{{meta_title}}</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Font -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    {{!-- Styles'n'Scripts --}}
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+
+    {{!-- This tag outputs SEO meta+structured data and other important settings --}}
+    {{ghost_head}}
+
+</head>
+<body class="{{body_class}}">
+
+    <div class="site-wrapper">
+
+        {{!-- All the main content gets inserted here, index.hbs, post.hbs, etc --}}
+        {{{body}}}
+
+        {{!-- The footer at the very bottom of the screen --}}
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="{{@site.url}}">{{@site.title}}</a> &copy; {{date format="YYYY"}}</section>
+                <nav class="site-footer-nav">
+                    <a href="{{@site.url}}">Latest Posts</a>
+                    {{#if @blog.facebook}}<a href="{{facebook_url @blog.facebook}}" target="_blank" rel="noopener">Facebook</a>{{/if}}
+                    {{#if @blog.twitter}}<a href="{{twitter_url @blog.twitter}}" target="_blank" rel="noopener">Twitter</a>{{/if}}
+                    <a href="https://creative-tim.com" target="_blank" rel="noopener">Creative Tim</a>
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    {{!-- The big email subscribe modal content --}}
+    {{#if @labs.subscribers}}
+    <div id="subscribe" class="subscribe-overlay">
+        <a class="subscribe-overlay-close" href="#"></a>
+        <div class="subscribe-overlay-content">
+            {{#if @blog.logo}}
+                <img class="subscribe-overlay-logo" src="{{@site.logo}}" alt="{{@site.title}}" />
+            {{/if}}
+            <h1 class="subscribe-overlay-title">Subscribe to {{@site.title}}</h1>
+            <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+            {{subscribe_form placeholder="youremail@example.com"}}
+        </div>
+    </div>
+    {{/if}}
+
+    <script>
+        var images = document.querySelectorAll('.kg-gallery-image img');
+        images.forEach(function (image) {
+            var container = image.closest('.kg-gallery-image');
+            var width = image.attributes.width.value;
+            var height = image.attributes.height.value;
+            var ratio = width / height;
+            container.style.flex = ratio + ' 1 0%';
+        })
+    </script>
+
+
+    {{!-- jQuery + Fitvids, which makes all video embeds responsive --}}
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="{{asset "js/jquery.fitvids.js"}}"></script>
+    <script src="{{asset "js/parallax.js"}}"></script>
+    <script src="{{asset "js/main.js"}}"></script>
+
+    {{#if pagination.pages}}
+    <script src="{{asset "built/infinitescroll.js"}}"></script>
+    {{/if}}
+
+    {{!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. --}}
+    {{{block "scripts"}}}
+
+    {{!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag --}}
+    {{ghost_foot}}
+
+</body>
+</html>
+
+{{!--
+This error template is used for all 400/500 errors, except 404, which might occur on your site.
+It's a good idea to keep this template as minimal as possible in terms of both file size and complexity.
+You'll notice that we *don't* use any JavsScript, or ghost_head / ghost_foot in this file.
+--}}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{{meta_title}}</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+</head>
+<body class="error-template">
+    <div class="site-wrapper">
+
+        <header class="site-header outer {{#if feature_image}}" style="background-image: url({{feature_image}}){{else}}no-cover{{/if}}">
+            <div class="inner">
+                <nav class="site-nav-center">
+                    {{#if @blog.logo}}
+                        <a class="site-nav-logo" href="{{@site.url}}"><img src="{{img_url @blog.logo size="xs"}}" alt="{{@site.title}}" /></a>
+                    {{else}}
+                        <a class="site-nav-logo" href="{{@site.url}}">{{@site.title}}</a>
+                    {{/if}}
+                </nav>
+            </div>
+        </header>
+
+        <main id="site-main" class="site-main outer">
+            <div class="inner">
+
+                <section class="error-message">
+                    <h1 class="error-code">{{statusCode}}</h1>
+                    <p class="error-description">{{message}}</p>
+                    <a class="error-link" href="{{@site.url}}">Go to the front page →</a>
+                </section>
+
+                {{#if errorDetails}}
+                <section class="error-stack">
+                    <h3>Theme errors</h3>
+                    <ul class="error-stack-list">
+                        {{#foreach errorDetails}}
+                            <li>
+                                <em class="error-stack-function">{{{rule}}}</em>
+
+                                {{#foreach failures}}
+                                    <p><span class="error-stack-file">Ref: {{ref}}</span></p>
+                                    <p><span class="error-stack-file">Message: {{message}}</span></p>
+                                {{/foreach}}
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                </section>
+                {{/if}}
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+
+{{!--
+This error template is used for all 404 errors, which might occur on your site.
+It's a good idea to keep this template as minimal as possible in terms of both file size and complexity.
+--}}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>{{meta_title}}</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{{asset "built/screen.css"}}" />
+</head>
+<body class="error-template">
+    <div class="site-wrapper">
+
+        <header class="site-header outer {{#if feature_image}}" style="background-image: url({{feature_image}}){{else}}no-cover{{/if}}">
+            <div class="inner">
+                <nav class="site-nav-center">
+                    {{#if @blog.logo}}
+                        <a class="site-nav-logo" href="{{@site.url}}"><img src="{{img_url @blog.logo size="xs"}}" alt="{{@site.title}}" /></a>
+                    {{else}}
+                        <a class="site-nav-logo" href="{{@site.url}}">{{@site.title}}</a>
+                    {{/if}}
+                </nav>
+            </div>
+        </header>
+
+        <main id="site-main" class="site-main outer">
+            <div class="inner">
+
+                <section class="error-message">
+                    <h1 class="error-code">{{statusCode}}</h1>
+                    <p class="error-description">{{message}}</p>
+                    <a class="error-link" href="{{@site.url}}">Go to the front page →</a>
+                </section>
+            </div>
+        </main>
+
+        {{#get "posts" limit="3"}}
+        <aside class="outer">
+            <div class="inner">
+                <div class="post-feed">
+                    {{#foreach posts}}
+                        {{> "post-card"}}
+                    {{/foreach}}
+                </div>
+            </div>
+        </aside>
+        {{/get}}
+
+    </div>
+</body>
+</html>
+
+var gulp = require('gulp');
+
+// gulp plugins and utils
+var gutil = require('gulp-util');
+var livereload = require('gulp-livereload');
+var postcss = require('gulp-postcss');
+var sourcemaps = require('gulp-sourcemaps');
+var zip = require('gulp-zip');
+var uglify = require('gulp-uglify');
+var filter = require('gulp-filter');
+var sass = require('gulp-sass');
+var path = require('path');
+
+
+// postcss plugins
+var autoprefixer = require('autoprefixer');
+var colorFunction = require('postcss-color-function');
+var cssnano = require('cssnano');
+var customProperties = require('postcss-custom-properties');
+var easyimport = require('postcss-easy-import');
+
+const { watch } = require('gulp');
+
+var swallowError = function swallowError(error) {
+    gutil.log(error.toString());
+    gutil.beep();
+    this.emit('end');
+};
+
+var Paths = {
+  HERE: './',
+  CSS: './assets/css/',
+  SCSS_TOOLKIT_SOURCES: './assets/scss/material-kit.scss',
+  SCSS: './assets/scss/**/**'
+};
+
+function compileScss() {
+  return gulp.src(Paths.SCSS_TOOLKIT_SOURCES)
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.write(Paths.HERE))
+    .pipe(gulp.dest(Paths.CSS));
+}
+gulp.task('compile:scss', compileScss);
+function css() {
+    var processors = [
+        easyimport,
+        customProperties,
+        colorFunction(),
+        autoprefixer({browsers: ['last 2 versions']}),
+        cssnano()
+    ];
+
+    return gulp.src('assets/css/*.css')
+        .on('error', swallowError)
+        .pipe(sourcemaps.init())
+        .pipe(postcss(processors))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('assets/built/'))
+        .pipe(livereload());
+};
+gulp.task('css', css);
+
+//
+function js() {
+    var jsFilter = filter(['**/*.js'], {restore: true});
+
+    return gulp.src('assets/js/*.js')
+        .on('error', swallowError)
+        .pipe(sourcemaps.init())
+        .pipe(jsFilter)
+        .pipe(uglify())
+        .pipe(jsFilter.restore)
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('assets/built/'))
+        .pipe(livereload());
+}
+gulp.task('js', js);
+
+gulp.task('build', gulp.series(['css', 'js'], function (/* cb */ done) {
+    done();
+}));
+
+gulp.task('generate', gulp.series(['css', 'js']));
+
+
+gulp.task('watch-css', function () {
+    gulp.watch('assets/css/**', css);
+});
+
+gulp.task('watch-scss', function() {
+  gulp.watch(Paths.SCSS, compileScss);
+});
+
+gulp.task('watch', gulp.parallel(['watch-css', 'watch-scss']));
+
+gulp.task('zip', gulp.series(['css', 'js'], function () {
+    var targetDir = 'dist/';
+    var themeName = require('./package.json').name;
+    var filename = themeName + '.zip';
+
+    return gulp.src([
+        '**',
+        '!node_modules', '!node_modules/**',
+        '!dist', '!dist/**'
+    ])
+        .pipe(zip(filename))
+        .pipe(gulp.dest(targetDir));
+}));
+
+gulp.task('default', gulp.parallel(['build', 'watch']));
+
+{{!< default}}
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+{{> "site-nav"}}
+
+<header class="site-header outer {{#if @blog.cover_image}}" style="background-image: url({{@site.cover_image}}){{else}}no-cover{{/if}}" data-parallax="true">
+    <div class="container">
+        <div class="site-header-content">
+            <h1 class="site-title">
+                {{#if @blog.logo}}
+                    <img class="site-logo" src="{{@site.logo}}" alt="{{@site.title}}" />
+                {{else}}
+                    {{@site.title}}
+                {{/if}}
+            </h1>
+            <h2 class="site-description">{{@site.description}}</h2>
+        </div>
+    </div>
+</header>
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <div class="post-feed">
+            {{#foreach posts}}
+
+                {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
+                {{> "post-card"}}
+
+            {{/foreach}}
+        </div>
+
+    </div>
+</main>
+
+{{!< default}}
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+
+{{> header background=@blog.cover_image}} {{!--Special header.hbs partial to generate the <header> tag--}}
+    <div class="inner">
+        <div class="site-header-content">
+            <h1 class="site-title">
+                {{#if @blog.logo}}
+                    <img class="site-logo" src="{{img_url @blog.logo size="s"}}" alt="{{@site.title}}" />
+                {{else}}
+                    {{@site.title}}
+                {{/if}}
+            </h1>
+            <h2 class="site-description">{{@site.description}}</h2>
+        </div>
+        {{> "site-nav"}}
+    </div>
+</header>
+
+{{!-- The main content area --}}
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <div class="post-feed">
+            {{#foreach posts}}
+
+                {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
+                {{> "post-card"}}
+
+            {{/foreach}}
+        </div>
+
+    </div>
+</main>
+
+MIT License
+
+Copyright (c) 2020 Creative Tim
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+{
+    "name": "material-kit",
+    "description": "Start Your Development With A Badass UI Kit inspired by Material Design - Made By Creative Tim",
+    "demo": "https://material-kit-ghost.creative-tim.com/",
+    "version": "1.0.0",
+    "engines": {
+        "ghost-api": "v3"
+    },
+    "license": "MIT",
+    "screenshots": {
+        "desktop": "assets/screenshot-desktop.jpg",
+        "mobile": "assets/screenshot-mobile.jpg"
+    },
+    "scripts": {
+        "dev": "gulp",
+        "zip": "gulp zip",
+        "test": "gscan ."
+    },
+    "author": {
+        "name": "Creative-Tim",
+        "email": "hello@creative-tim.com",
+        "url": "https://creative-tim.com"
+    },
+    "gpm": {
+        "type": "theme",
+        "categories": [
+            "Minimal",
+            "Magazine"
+        ]
+    },
+    "keywords": [
+        "material",
+        "theme",
+        "ghost-theme",
+        "material theme ghost",
+        "material theme",
+        "ghost material",
+        "creative tim ghost",
+        "ghost theme material",
+        "material ghost",
+        "google material ghost",
+        "material ghost theme"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/creativetimofficial/ct-material-kit-ghost"
+    },
+    "bugs": "https://github.com/creativetimofficial/material-kit-ghost/issues",
+    "contributors": "https://github.com/creativetimofficial/material-kit-ghost/graphs/contributors",
+    "devDependencies": {
+        "autoprefixer": "6.3.6",
+        "cssnano": "3.7.1",
+        "gscan": "^2.0.0",
+        "gulp": "^4.0.0",
+        "gulp-filter": "5.1.0",
+        "gulp-livereload": "^4.0.1",
+        "gulp-postcss": "6.1.1",
+        "gulp-sass": "^3.2.1",
+        "gulp-sourcemaps": "1.6.0",
+        "gulp-uglify": "3.0.1",
+        "gulp-util": "3.0.7",
+        "gulp-watch": "4.3.8",
+        "gulp-zip": "4.0.0",
+        "postcss-color-function": "2.0.1",
+        "postcss-custom-properties": "5.0.1",
+        "postcss-easy-import": "1.0.1"
+    },
+    "config": {
+        "posts_per_page": 25
+    },
+    "dependencies": {
+        "gulp-cli": "^2.0.1"
+    }
+}
+
+{{!< default}}
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+
+{{!-- Everything inside the #post tags pulls data from the post --}}
+{{#post}}
+<!-- Navbar  -->
+{{> "site-nav"}}
+
+<header class="site-header author-template outer{{#if feature_image}}" style="background-image: url({{feature_image}}){{else}}no-cover{{/if}}" data-parallax="true">
+    <div class="inner">
+        <div class="site-header-content">
+          <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+
+              <header class="post-full-header">
+                <h1 class="post-full-title">{{title}}</h1>
+                <h4 class="site-description">{{excerpt}}</h4>
+              </header>
+
+          </article>
+        </div>
+    </div>
+</header>
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+        <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+
+
+
+            <section class="post-full-content">
+                <div class="post-content">
+                    {{content}}
+                </div>
+            </section>
+
+        </article>
+
+    </div>
+</main>
+
+{{/post}}
+
+{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
+{{#contentFor "scripts"}}
+<script>
+$(function() {
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+});
+</script>
+{{/contentFor}}
+
+{{!< default}}
+
+
+ {{> "site-nav"}}
+ {{#post}}
+ <header class="site-header outer" style="background-image: url({{feature_image}})" data-parallax="true">
+     <div class="inner">
+         <div class="site-header-content">
+             <h1 class="site-title">
+                 {{title}}
+             </h1>
+             <br/>
+             <h2 class="site-description">{{excerpt}}</h2>
+         </div>
+     </div>
+ </header>
+ {{/post}}
+
+{{#post}}
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    {{#get "authors" limit="all" include="count.posts" order="count.posts desc"}}
+      <div class="post-feed">
+        {{#foreach users}}
+
+          <article class="post-card card-profile card-plain {{#unless profile_image}} no-image{{/unless}}">
+            <div class="post-card-header card-avatar">
+              {{#if profile_image}}
+                <a class="post-card-image-link" href="{{url}}">
+                  <div class="post-card-image img" style="background-image: url({{profile_image}})"></div>
+                </a>
+              {{/if}}
+            </div>
+
+            <div class="post-card-content">
+              <a class="post-card-content-link" href="{{url}}">
+                  <h2 class="post-card-title">{{name}}</h2>
+
+                  <div class="post-card-category">
+                    {{#if location}}
+                        <div class="author-location">{{location}}</div>
+                    {{/if}}
+                  </div>
+                <section class="post-card-excerpt">
+                  <p>{{bio}}</p>
+                </section>
+              </a>
+            </div>
+            <div class="post-card-footer">
+              <div class="author-meta">
+                  {{#if website}}
+                      <a class="btn social-link social-link-wb" href="{{website}}" target="_blank" rel="noopener">{{> "icons/website"}}</a>
+                  {{/if}}
+                  {{#if twitter}}
+                      <a class="btn social-link social-link-tw" href="{{twitter_url}}" target="_blank" rel="noopener">{{> "icons/twitter"}}</a>
+                  {{/if}}
+                  {{#if facebook}}
+                      <a class="btn social-link social-link-fb" href="{{facebook_url}}" target="_blank" rel="noopener">{{> "icons/facebook"}}</a>
+                  {{/if}}
+                  <a class="social-link social-link-rss" href="https://feedly.com/i/subscription/feed/{{url absolute="true"}}rss/" target="_blank" rel="noopener">{{> "icons/rss"}}</a>
+              </div>
+              <!-- <div class="author-stats">
+                <span class="bull">&bull;</span>  {{plural ../pagination.total empty='No posts' singular='% post' plural='% posts'}}
+              </div> -->
+            </div>
+          </article>
+
+        {{/foreach}}
+      </div>
+    {{/get}}
+  </div>
+</main>
+
+{{/post}}
+
+{{!< default}}
+{{> "site-nav"}}
+
+{{#post}}
+<header class="site-header outer" style="background-image: url({{feature_image}})" data-parallax="true">
+    <div class="inner">
+        <div class="site-header-content">
+            <h1 class="site-title">
+                {{title}}
+            </h1>
+            <br/>
+            <h2 class="site-description">{{excerpt}}</h2>
+        </div>
+    </div>
+</header>
+{{/post}}
+
+{{#post}}
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    <div class="tag-wrapper">
+    {{#get 'tags' limit='all' include='count.posts' order='count.posts desc'}}
+    {{#foreach tags}}
+        <a href='{{url}}' target="_blank" class="card-tag" style="background-image: url({{feature_image}})">
+        <h2 class="tag-title">{{ name }}
+          <p class="tag-description">
+            <small>{{ count.posts }} posts</small>
+          </p>
+        </h2>
+        </a>
+    {{/foreach}}
+    {{/get}}
+    </div>
+  </div>
+</main>
+{{/post}}
+
+{{!< default}}
+
+
+ {{> "site-nav"}}
+
+{{#post}}
+<header class="site-header outer" style="background-image: url({{feature_image}})" data-parallax="true">
+    <div class="inner">
+        <div class="site-header-content">
+            <h1 class="site-title">
+                {{title}}
+            </h1>
+            <br/>
+            <h2 class="site-description">{{excerpt}}</h2>
+        </div>
+    </div>
+</header>
+{{/post}}
+
+{{#post}}
+
+<main id="site-main" class="site-main outer" role="main">
+  <div class="inner">
+    <div class="post-feed">
+        <div class="tim-row">
+          <div class="tim-typo">
+            <h1>
+              <span class="tim-note">Header 1</span>The Life of Material Kit </h1>
+          </div>
+          <div class="tim-typo">
+            <h2>
+              <span class="tim-note">Header 2</span>The Life of Material Kit</h2>
+          </div>
+          <div class="tim-typo">
+            <h3>
+              <span class="tim-note">Header 3</span>The Life of Material Kit</h3>
+          </div>
+          <div class="tim-typo">
+            <h4>
+              <span class="tim-note">Header 4</span>The Life of Material Kit</h4>
+          </div>
+          <div class="tim-typo">
+            <h5>
+              <span class="tim-note">Header 5</span>The Life of Material Kit</h5>
+          </div>
+          <div class="tim-typo">
+            <h6>
+              <span class="tim-note">Header 6</span>The Life of Material Kit</h6>
+          </div>
+          <div class="tim-typo">
+            <h1 class="title">
+              <span class="tim-note">Header 1 Title</span>The Life of Material Kit </h1>
+          </div>
+          <div class="tim-typo">
+            <h2 class="title">
+              <span class="tim-note">Header 2 Title</span>The Life of Material Kit</h2>
+          </div>
+          <div class="tim-typo">
+            <h3 class="title">
+              <span class="tim-note">Header 3 Title</span>The Life of Material Kit</h3>
+          </div>
+          <div class="tim-typo">
+            <h4 class="title">
+              <span class="tim-note">Header 4 Title</span>The Life of Material Kit</h4>
+          </div>
+          <div class="tim-typo">
+            <p>
+              <span class="tim-note">Paragraph</span>
+              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.</p>
+          </div>
+          <div class="tim-typo">
+            <span class="tim-note">Quote</span>
+            <div class="blockquote undefined">
+              <p>
+                I will be the leader of a company that ends up being worth billions of dollars, because I got the answers. I understand culture. I am the nucleus. I think that’s a responsibility that I have, to push possibilities, to show people, this is the level that things could be at.
+              </p>
+              <small>
+                Kanye West, Musician
+              </small>
+            </div>
+          </div>
+          <div class="tim-typo">
+            <span class="tim-note">Muted Text</span>
+            <p class="text-muted">
+              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
+            </p>
+          </div>
+          <div class="tim-typo">
+            <span class="tim-note">Primary Text</span>
+            <p class="text-primary">
+              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
+          </div>
+          <div class="tim-typo">
+            <span class="tim-note">Info Text</span>
+            <p class="text-info">
+              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
+          </div>
+          <div class="tim-typo">
+            <span class="tim-note">Success Text</span>
+            <p class="text-success">
+              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
+          </div>
+          <div class="tim-typo">
+            <span class="tim-note">Warning Text</span>
+            <p class="text-warning">
+              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers...
+            </p>
+          </div>
+          <div class="tim-typo">
+            <span class="tim-note">Danger Text</span>
+            <p class="text-danger">
+              I will be the leader of a company that ends up being worth billions of dollars, because I got the answers... </p>
+          </div>
+          <div class="tim-typo">
+            <h2>
+              <span class="tim-note">Small Tag</span>
+              Header with small subtitle
+              <br>
+              <small>Use "small" tag for the headers</small>
+            </h2>
+          </div>
+        </div>
+      </div>
+  </div>
+</main>
+
+{{/post}}
+
+{{!< default}}
+
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+
+{{!-- Everything inside the #post tags pulls data from the post --}}
+{{#post}}
+<!-- Navbar  -->
+{{> "site-nav"}}
+
+<header class="site-header outer{{#if feature_image}}" style="background-image: url({{feature_image}}){{else}}no-cover{{/if}}" data-parallax="true">
+    <div class="inner">
+        <div class="site-header-content">
+          <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+
+              <header class="post-full-header">
+                <h1 class="post-full-title">{{title}}</h1>
+
+                  <section class="post-full-meta">
+                      <time class="post-full-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="D MMMM YYYY"}}</time>
+                      {{#primary_tag}}
+                          <span class="date-divider">/</span> <a href="{{url}}">{{name}}</a>
+                      {{/primary_tag}}
+                  </section>
+              </header>
+
+          </article>
+        </div>
+    </div>
+</header>
+
+<main id="site-main" class="site-main outer">
+    <div class="inner">
+
+      <article class="post-full {{post_class}} {{#unless feature_image}}no-image{{/unless}}">
+
+          <!-- {{#if feature_image}}
+          <figure class="post-full-image" style="background-image: url({{feature_image}})">
+          </figure>
+          {{/if}} -->
+
+          <section class="post-full-content">
+              <div class="post-content">
+                  {{content}}
+              </div>
+          </section>
+
+          {{!-- Email subscribe form at the bottom of the page --}}
+          {{#if @labs.subscribers}}
+          <section class="subscribe-form">
+              <h3 class="subscribe-form-title">Subscribe to {{@site.title}}</h3>
+              <p>Get the latest posts delivered right to your inbox</p>
+              {{subscribe_form placeholder="youremail@example.com"}}
+          </section>
+          {{/if}}
+
+          <footer class="post-full-footer">
+
+              {{!-- There are two options for how we display the byline/author-info.
+              If the post has more than one author, we load a specific template
+              from includes/byline-multiple.hbs, otherwise, we just use the
+              default byline. --}}
+
+              {{#has author="count:>1"}}
+                  {{> "byline-multiple"}}
+              {{else}}
+                  {{> "byline-single"}}
+              {{/has}}
+
+          </footer>
+
+          {{!--
+          <section class="post-full-comments">
+              If you want to embed comments, this is a good place to do it!
+          </section>
+          --}}
+
+      </article>
+
+    </div>
+</main>
+
+{{!-- Links to Previous/Next posts --}}
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            {{#if primary_tag}}
+            {{#get "posts" filter="tags:{{primary_tag.slug}}+id:-{{id}}" limit="3" as |related_posts|}}
+                {{#if related_posts}}
+                <article class="read-next-card"
+                    {{#if ../primary_tag.feature_image}}
+                        style="background-image: url({{img_url ../primary_tag.feature_image size="m"}})"
+                    {{else}}
+                        {{#if @blog.cover_image}}
+                            style="background-image: url({{img_url @blog.cover_image size="m"}})"{{/if}}
+                    {{/if}}
+                >
+                    <header class="read-next-card-header">
+                        <small class="read-next-card-header-sitetitle">&mdash; {{@site.title}} &mdash;</small>
+                        {{#../primary_tag}}
+                        <h3 class="read-next-card-header-title"><a href="{{url}}">{{name}}</a></h3>
+                        {{/../primary_tag}}
+                    </header>
+                    <div class="read-next-divider">{{> "icons/infinity"}}</div>
+                    <div class="read-next-card-content">
+                        <ul>
+                            {{#foreach related_posts}}
+                            <li><a href="{{url}}">{{title}}</a></li>
+                            {{/foreach}}
+                        </ul>
+                    </div>
+                    <footer class="read-next-card-footer">
+                        <a href="{{#../primary_tag}}{{url}}{{/../primary_tag}}">{{plural meta.pagination.total empty='No posts' singular='% post' plural='See all % posts'}} →</a>
+                    </footer>
+                </article>
+                {{/if}}
+            {{/get}}
+            {{/if}}
+
+            {{!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs --}}
+            {{#next_post}}
+                {{> "post-card"}}
+            {{/next_post}}
+
+            {{!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs --}}
+            {{#prev_post}}
+                {{> "post-card"}}
+            {{/prev_post}}
+
+        </div>
+    </div>
+</aside>
+
+{{/post}}
+
+{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
+{{#contentFor "scripts"}}
+<script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('#reading-progress');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+
+});
+</script>
+{{/contentFor}}
+
+# [Material Kit Ghost](https://www.creative-tim.com/product/material-kit-ghost) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Material%20Kit%20Ghost,%20a%20cool%20Material%20Design%20Theme%20built%20for%20Ghost%20by%20Creative%20Tim.%20https://material-kit-ghost.creative-tim.com/&via=CreativeTim%20%23argon%20%23designsystem%20%23developers)
+
+
+ ![version](https://img.shields.io/badge/version-1.0.0-blue.svg)  [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/argon-react-native.svg?style=flat)](https://github.com/creativetimofficial/argon-react-native/issues?q=is%3Aopen+is%3Aissue) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/creativetimofficial/material-kit-ghost/blob/master/LICENSE) ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/creativetimofficial/material-kit-ghost)
+
+
+![Product Gif](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-kit-ghost/opt_mk_ghost_thumbnail.jpg)
+
+
+**Material Kit Ghost** is a fully coded Ghost theme inspired by our own Material Design line of themes. We have created what we think is the best free Material Design theme for Ghost.
+
+Start Your Development With A Badass Material Kit Ghost Theme inspired by Material Design. If you like Google's Material Design, you will love this kit! It features a huge number of components built to fit together and look amazing. 
+
+**FULLY CODED COMPONENTS**
+
+Material Kit Ghost uses a simple templating language called [Handlebars](http://handlebarsjs.com/) for its themes. We recommend going over at https://ghost.org/docs/api/handlebars-themes/ for more information regarding the theme and how to develop a Ghost theme.
+
+
+**PIXEL PERFECT DESIGN**
+
+The screens are carefully created and inspired by our Material Kit line of design. You can never go wrong with the amount of attention we’re willing to invest into crafting the most accurate Material Design theme for Ghost. 
+
+View all pages [here](https://material-kit-ghost.creative-tim.com/). 
+
+**STYLE GUIDE** 
+
+Material Kit Ghost comes packed with a large number of features. Putting together a page has never been easier. From HTML insertion to bookmarks and responsive styling, you can easily create and built your blog posts. We have created multiple options for you to put together and customise into pixel perfect pages. 
+
+View all sections [here](https://material-kit-ghost.creative-tim.com/style-guide/).
+
+
+Let us know your thoughts below. And good luck with development!
+
+
+## Table of Contents
+
+* [Versions](#versions) 
+* [Quick Start](#quick-start)
+* [Documentation](#documentation)
+* [File Structure](#file-structure)
+* [Browser Support](#browser-support)
+* [Resources](#resources)
+* [Reporting Issues](#reporting-issues)
+* [Technical Support or Questions](#technical-support-or-questions)
+* [Licensing](#licensing)
+* [Useful Links](#useful-links)
+
+## Versions
+
+[<img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/icon_ghost.png" width="60" height="60"/>](https://www.creative-tim.com/product/material-kit-ghost?ref=mkg-github-readme)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/html-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/material-kit?ref=mkg-github-readme)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/vue-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/vue-material-kit?ref=mkg-github-readme)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/react-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/material-kit-react?ref=mkg-github-readme)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/react-native-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/material-kit-react-native?ref=mkg-github-readme)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/figma-logo.jpg?raw=true" width="60" height="60" />](https://demos.creative-tim.com/material-kit-figma/presentation.html?ref=mkg-github-readme)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/wordpress-logo.jpg?raw=true" width="60" height="60" />](https://themeisle.com/themes/hestia/?ref=creativetim)
+
+| Ghost | React | Vue  |
+| --- | --- | ---  |
+| [![Material Kit Ghost](https://s3.amazonaws.com/creativetim_bucket/products/263/thumb/opt_mk_ghost_thumbnail.jpg?1586364531)](https://www.creative-tim.com/product/material-kit-ghost?ref=mkg-github-readme)  | [![Material Kit  React](https://github.com/creativetimofficial/public-assets/blob/master/material-kit-react/material-kit-react.jpeg?raw=true)](https://www.creative-tim.com/product/material-kit-react?ref=mkg-github-readme)  | [![Vue Material Kit](https://github.com/creativetimofficial/public-assets/blob/master/vue-material-kit/vue-material-kit.jpeg?raw=true)](https://www.creative-tim.com/product/vue-material-kit?ref=mkg-github-readme)
+
+| React Native | HTML | Figma |
+| ---  | --- | --- |
+| [![Material Kit React Native](https://github.com/creativetimofficial/public-assets/blob/master/material-kit-react-native/opt_mkrn_thumbnail.jpg?raw=true)](https://www.creative-tim.com/product/material-kit-react-native?ref=mkg-github-readme) | [![Material Kit  HTML](https://s3.amazonaws.com/creativetim_bucket/products/38/original/opt_mk_thumbnail.jpg)](https://www.creative-tim.com/product/material-kit?ref=mkg-github-readme) | [![Material Kit Figma](https://github.com/creativetimofficial/public-assets/blob/master/material-kit-figma/material-kit-figma.jpg?raw=true)](https://demos.creative-tim.com/material-kit-figma/presentation.html?ref=mkg-github-readme)
+
+## Quick start
+- Download from [Creative Tim](https://www.creative-tim.com/product/material-kit-ghost?ref=mkg-github-readme)
+- Go to you website dashboard 
+- Select "Design" under "Settings"
+- Scroll down and hit 'Upload a theme'
+- Drag and drop our .zip file 
+- You're set and ready to go!
+
+## Documentation
+The documentation for the Material Kit Ghost is hosted on our [live preview](https://material-kit-ghost.creative-tim.com/documentation?ref=mkg-github-readme).
+
+
+## File Structure
+Within the download you'll find the following directories and files:
+
+```
+material-kit-ghost/
+|-- CHANGELOG.md
+|-- LICENSE
+|-- README.md
+|-- assets
+|   |-- built
+|   |-- css
+|   |-- js
+|   `-- scss
+|-- author.hbs
+|-- default.hbs
+|-- error-404.hbs
+|-- error.hbs
+|-- home.hbs
+|-- index.hbs
+|-- package.json
+|-- page-authors.hbs
+|-- page-tags.hbs
+|-- page-typography.hbs
+|-- page.hbs
+|-- partials
+|   |-- byline-multiple.hbs
+|   |-- byline-single.hbs
+|   |-- header.hbs
+|   |-- icons
+|   |   |-- avatar.hbs
+|   |   |-- facebook.hbs
+|   |   |-- ghost-logo.hbs
+|   |   |-- infinity.hbs
+|   |   |-- location.hbs
+|   |   |-- point.hbs
+|   |   |-- rss.hbs
+|   |   |-- twitter.hbs
+|   |   `-- website.hbs
+|   |-- post-card.hbs
+|   `-- site-nav.hbs
+|-- post.hbs
+|-- tag.hbs
+`-- yarn.lock
+
+```
+
+
+## Browser Support
+
+At present, we officially aim to support the last two versions of the following browsers:
+
+<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/chrome-logo.png?raw=true" width="64" height="64"> <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/firefox-logo.png" width="64" height="64"> <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/edge-logo.png" width="64" height="64"> <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/safari-logo.png" width="64" height="64"> <img src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/logos/opera-logo.png" width="64" height="64">
+
+
+## Resources
+- Demo: <https://material-kit-ghost.creative-tim.com/>
+- Download Page: <https://www.creative-tim.com/product/material-kit-ghost>
+- Documentation: <https://material-kit-ghost.creative-tim.com/documentation>
+- License Agreement: <https://www.creative-tim.com/license>
+- Support: <https://www.creative-tim.com/contact-us>
+- Issues: [Github Issues Page](https://github.com/creativetimofficial/material-kit-ghost/issues)
+- [Material Kit](https://www.creative-tim.com/product/material-kit?ref=mkg-github-readme) - For Front End Development
+- **Dashboards:**
+
+| HTML | React | Vue  | Angular |
+| --- | --- | ---  | ---  |
+| [![Material Dashboard  HTML](https://github.com/creativetimofficial/public-assets/blob/master/material-dashboard-html/material-dashboard.jpeg?raw=true)](https://www.creative-tim.com/product/material-dashboard?ref=mkg-github-readme) | [![Material Dashboard  React](https://github.com/creativetimofficial/public-assets/blob/master/material-dashboard-react/material-dashboard-react.jpeg?raw=true)](https://www.creative-tim.com/product/material-dashboard-react?ref=mkg-github-readme) | [![Vue Material Dashboard](https://github.com/creativetimofficial/public-assets/blob/master/vue-material-dashboard/vue-material-dashboard.jpeg?raw=true)](https://www.creative-tim.com/product/vue-material-dashboard?ref=mkg-github-readme)  | [![ Material Dashboard Angular](https://github.com/creativetimofficial/public-assets/blob/master/material-dashboard-angular/material-dashboard-angular.jpg?raw=true)](https://www.creative-tim.com/product/material-dashboard-angular2?ref=mkg-github-readme)
+
+| HTML Dark | Vuetify  |
+| --- | --- |
+| [![Material Dashboard Dark](https://github.com/creativetimofficial/public-assets/blob/master/material-dashboard-dark/material-dashboard-dark.jpg?raw=true)](https://www.creative-tim.com/product/material-dashboard-dark?ref=mkg-github-readme) | [![Material Dashboard Vuetify](https://github.com/creativetimofficial/public-assets/blob/master/material-dashboard-vuetify/material-dashboard-vuetify.jpg?raw=true)](https://www.creative-tim.com/product/vuetify-material-dashboard?ref=mkg-github-readme)
+
+
+## Reporting Issues
+
+We use GitHub Issues as the official bug tracker for the Material Kit Ghost. Here are some advices for our users that want to report an issue:
+
+1. Make sure that you are using the latest version of the Material Kit. Check the CHANGELOG from your dashboard on our [website](https://www.creative-tim.com/?ref=mkg-github-readme).
+2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
+3. Some issues may be browser specific, so specifying in what browser you encountered the issue might help.
+
+
+### Technical Support or Questions
+
+If you have questions or need help integrating the product please [contact us](https://www.creative-tim.com/contact-us?ref=mkg-github-readme) instead of opening an issue.
+
+
+## Licensing
+
+- Copyright 2020 [Creative Tim](https://www.creative-tim.com/?ref=mkg-github-readme)
+
+- Licensed under [MIT](https://github.com/creativetimofficial/material-kit-ghost/blob/master/LICENSE.md)
+
+
+## Useful Links
+
+- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
+- [Affiliate Program](https://www.creative-tim.com/affiliates/new?ref=mkg-github-readme) (earn money)
+- [Blog Creative Tim](http://blog.creative-tim.com/)
+- [Free Products](https://www.creative-tim.com/bootstrap-themes/free?ref=mkg-github-readme) from Creative Tim
+- [Premium Products](https://www.creative-tim.com/bootstrap-themes/premium?ref=mkg-github-readme) from Creative Tim
+- [React Products](https://www.creative-tim.com/bootstrap-themes/react-themes?ref=mkg-github-readme) from Creative Tim
+- [Angular Products](https://www.creative-tim.com/bootstrap-themes/angular-themes?ref=mkg-github-readme) from Creative Tim
+- [VueJS Products](https://www.creative-tim.com/bootstrap-themes/vuejs-themes?ref=mkg-github-readme) from Creative Tim
+- [More products](https://www.creative-tim.com/bootstrap-themes?ref=mkg-github-readme) from Creative Tim
+- Check our Bundles [here](https://www.creative-tim.com/bundles?ref=mkg-github-readme)
+
+
+### Social Media
+
+Twitter: <https://twitter.com/CreativeTim>
+
+Facebook: <https://www.facebook.com/CreativeTim>
+
+Dribbble: <https://dribbble.com/creativetim>
+
+Instagram: <https://www.instagram.com/CreativeTimOfficial>
+
