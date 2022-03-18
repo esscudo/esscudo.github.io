@@ -9,6 +9,14 @@ body{background-color:rgba(54, 8, 58, 0.589)}
 
     h2{color:rgb(102, 20, 128);}
 
-    h3{color: rgb(104, 21, 182);}
+    h3{color:  rgb(104, 21, 182);}
 
-h1,h2,h3,h4 {text-align:justify}
+h1,h2 {text-align:center;}
+
+
+/*IDs son unicos por elementos las clases son repetibles*/
+/* uso ·parrafo- especial y abro corchetes*/
+
+#parrafo-especial{
+    text-align: center;
+}
