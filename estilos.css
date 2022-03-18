@@ -1,4 +1,14 @@
 <!----> 
 <!---->
 
-body{background-color:rgba(130, 43, 138, 0.445)}
+body{background-color:rgba(54, 8, 58, 0.589)}
+
+    p{color: rgb(164, 89, 207);}
+
+    h1{color: rgb(202, 175, 212);}
+
+    h2{color:rgb(102, 20, 128);}
+
+    h3{color: rgb(104, 21, 182);}
+
+h1,h2,h3,h4 {text-align:justify}
